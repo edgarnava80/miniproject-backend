@@ -8,9 +8,7 @@ exports.getAllUsers = async (req, res) => {
     res.status(200).json({
       status: "exito",
       results: users.length,
-      data: {
-        users
-      }
+      data: users
     })
   } catch (err) {
     res.status(404).json({
@@ -27,14 +25,14 @@ exports.getUser = async (req, res) => {
         id: req.params.id
       }
     })
-    if(user.length){
+    if (user.length) {
       res.status(200).json({
         status: "exito",
         data: {
           user
         }
       })
-    }else{
+    } else {
       res.status(404).json({
         status: "fail",
         message: "Inexistent user!"
@@ -48,11 +46,7 @@ exports.getUser = async (req, res) => {
   }
 }
 exports.userValidationRules = () => {
-  return [
-    body('firstName').notEmpty().withMessage('You must provide your first name.').trim().escape(),
-    body('lastName').notEmpty().withMessage('You must provide your last name.').trim().escape(),
-    body('email').isEmail().withMessage('You must provide a valid email address.').normalizeEmail()
-  ]
+  return [body("firstName").notEmpty().withMessage("You must provide your first name.").trim().escape(), body("lastName").notEmpty().withMessage("You must provide your last name.").trim().escape(), body("email").isEmail().withMessage("You must provide a valid email address.").normalizeEmail()]
 }
 
 exports.validateData = (req, res, next) => {
@@ -64,29 +58,29 @@ exports.validateData = (req, res, next) => {
   errors.array().map(err => extractedErrors.push({ [err.param]: err.msg }))
 
   return res.status(422).json({
-    errors: extractedErrors,
+    errors: extractedErrors
   })
 }
 
 exports.createUser = async (req, res) => {
-    try {
-      console.log(req.body)
+  try {
+    console.log(req.body)
 
-      const newUser = await models.User.create(req.body)
+    const newUser = await models.User.create(req.body)
 
-      res.status(201).json({
-        status: "success",
-        data: {
-          user: newUser
-        }
-      }) // 201 = Created
-    } catch (err) {
-      res.status(400).json({
-        status: "fail",
-        message: err
-      })
-    }
+    res.status(201).json({
+      status: "success",
+      data: {
+        user: newUser
+      }
+    }) // 201 = Created
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err
+    })
   }
+}
 
 exports.updateUser = async (req, res) => {
   try {
@@ -94,15 +88,15 @@ exports.updateUser = async (req, res) => {
       where: {
         id: req.params.id
       }
-    }) 
-    if(updated > 0){
+    })
+    if (updated > 0) {
       res.status(200).json({
         status: "success",
         data: {
           updated
         }
       })
-    }else{
+    } else {
       res.status(404).json({
         status: "fail",
         message: "Inexistent user!"
@@ -124,21 +118,21 @@ exports.deleteUser = async (req, res) => {
         id: req.params.id
       }
     })
-    if(deleted > 0){
+    if (deleted > 0) {
       res.status(200).json({
         status: "success",
         data: {
           deleted
         }
       })
-    }else{
+    } else {
       res.status(404).json({
         status: "fail",
         message: "Inexistent user!"
       })
     }
   } catch (err) {
-    console.log(err);
+    console.log(err)
     res.status(404).json({
       status: "fail",
       message: "There was a problem!",
