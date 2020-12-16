@@ -8,7 +8,7 @@ exports.getAllUsers = async (req, res) => {
     res.status(200).json({
       status: "exito",
       results: users.length,
-      data: users
+      users
     })
   } catch (err) {
     res.status(404).json({
