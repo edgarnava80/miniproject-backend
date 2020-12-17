@@ -28,9 +28,7 @@ exports.getUser = async (req, res) => {
     if (user.length) {
       res.status(200).json({
         status: "exito",
-        data: {
-          user
-        }
+        user
       })
     } else {
       res.status(404).json({
@@ -70,9 +68,7 @@ exports.createUser = async (req, res) => {
 
     res.status(201).json({
       status: "success",
-      data: {
-        user: newUser
-      }
+      user: newUser
     }) // 201 = Created
   } catch (err) {
     res.status(400).json({
